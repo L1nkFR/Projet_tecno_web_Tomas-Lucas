@@ -1,0 +1,22 @@
+[
+    {
+      "id": 1,
+      "nomU": "a",
+      "mdp": "$2b$10$QVYovgy35XF6JZ7lXKCtvunr8W22JYF9vxLpmXY2apMP.3GE5zEYO"
+    },
+    {
+      "id": 2,
+      "nomU": "b",
+      "mdp": "$2b$10$tfx160MtWy.xeiUadqdTHevJK9HhIYeVQy5xwoISfvrrTwyuvosAu"
+    },
+    {
+      "id": 3,
+      "nomU": "c",
+      "mdp": "$2b$10$N5albhqw16xRmUXKFi1MA.xyACamSrR4mI1Gq/FKSfnnGuvxooQx."
+    },
+    {
+      "id": 4,
+      "nomU": "coucou",
+      "mdp": "$2b$10$mJ02pDjnNLdZWLNlAneFA.rSSGWPSKxyMnZPxW6QNZ9pN2YwcqTIC"
+    }
+  ]
