@@ -1,0 +1,46 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
+export default function Navbar() {
+  const router = useRouter();
+
+  return (
+    <nav className="bg-blue-800 p-4 shadow-md">
+      <div className="max-w-7xl mx-auto flex justify-between items-center">
+        {/* Logo ou nom de l'application */}
+        <div className="text-white font-bold text-xl">
+          <span>Ressources Partagées</span>
+        </div>
+
+        {/* Liens de navigation */}
+        <div className="space-x-4">
+          <button
+            onClick={() => router.push('/')}
+            className="text-white hover:text-blue-300"
+          >
+            Accueil
+          </button>
+          <button
+            onClick={() => router.push('/recherche')}
+            className="text-white hover:text-blue-300"
+          >
+            Recherche
+          </button>
+          <button
+            onClick={() => router.push('/proposer')}
+            className="text-white hover:text-blue-300"
+          >
+            Proposer
+          </button>
+          <button
+            onClick={() => router.push('/statistiques')}
+            className="text-white hover:text-blue-300"
+          >
+            Statistiques
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+}
