@@ -1,0 +1,166 @@
+'use client';
+
+import { useState } from 'react';
+
+const categoriesMateriel = ['Informatique', 'Électroménager', 'Transport', 'Travaux'];
+const categoriesCompetence = ['Programmation', 'Électricité', 'Cuisine', 'Musique'];
+
+export default function ProposerPage() {
+  const [type, setType] = useState<'materiel' | 'competence'>('materiel');
+  const [categorie, setCategorie] = useState('');
+  const [description, setDescription] = useState('');
+  const [adresse, setAdresse] = useState('');
+  const [utilisateur, setUtilisateur] = useState('');
+  const [message, setMessage] = useState('');
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
+
+  const handleGeocode = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Utilisation de l'API Nominatim pour géocoder l'adresse
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(adresse)}`);
+    const data = await response.json();
+
+    if (data.length > 0) {
+      const { lat, lon } = data[0]; // Récupérer la première adresse trouvée
+      setLat(parseFloat(lat));
+      setLng(parseFloat(lon));
+    } else {
+      setMessage('Adresse introuvable. Veuillez vérifier et réessayer.');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!utilisateur || !adresse) {
+      setMessage('Veuillez saisir un nom d\'utilisateur et une adresse.');
+      return;
+    }
+
+    // Si l'adresse est valide et les coordonnées sont trouvées
+    if (lat && lng) {
+      const newItem = {
+        titre: description,  // Titre = description temporairement, mais tu peux ajouter un champ pour le titre si nécessaire
+        type,
+        categorie,
+        description,
+        localisation: { lat, lng },
+        utilisateur,  // Utilisateur
+        date: new Date().toISOString(),  // Date actuelle
+      };
+
+      const res = await fetch('/api/disponibilites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newItem),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setMessage('Ajout réussi ✅');
+        setCategorie('');
+        setDescription('');
+        setAdresse('');
+        setUtilisateur('');
+        setLat(null);
+        setLng(null);
+      } else {
+        setMessage('Erreur lors de l\'ajout ❌');
+      }
+    } else {
+      setMessage('Les coordonnées géographiques sont manquantes.');
+    }
+  };
+
+  return (
+    <div className="max-w-xl mx-auto mt-10 p-6 border rounded shadow">
+      <h1 className="text-2xl font-bold mb-4">Proposer un {type}</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Type */}
+        <div>
+          <label className="block mb-1">Type</label>
+          <select
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value as 'materiel' | 'competence');
+              setCategorie('');
+            }}
+            className="w-full p-2 border rounded"
+          >
+            <option value="materiel">Matériel</option>
+            <option value="competence">Compétence</option>
+          </select>
+        </div>
+
+        {/* Catégorie */}
+        <div>
+          <label className="block mb-1">Catégorie</label>
+          <select
+            value={categorie}
+            onChange={(e) => setCategorie(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          >
+            <option value="">-- Sélectionnez une catégorie --</option>
+            {(type === 'materiel' ? categoriesMateriel : categoriesCompetence).map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block mb-1">Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+
+        {/* Utilisateur */}
+        <div>
+          <label className="block mb-1">Utilisateur</label>
+          <input
+            type="text"
+            value={utilisateur}
+            onChange={(e) => setUtilisateur(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+
+        {/* Adresse */}
+        <div>
+          <label className="block mb-1">Adresse</label>
+          <input
+            type="text"
+            value={adresse}
+            onChange={(e) => setAdresse(e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+
+        {/* Bouton de géocodage */}
+        <button
+          onClick={handleGeocode}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Trouver la localisation
+        </button>
+
+        {/* Message */}
+        {message && <p className="mt-2 text-center text-red-500">{message}</p>}
+
+        {/* Soumettre */}
+        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Soumettre
+        </button>
+      </form>
+    </div>
+  );
+}
