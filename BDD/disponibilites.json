@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "type": "matériel",
+    "titre": "Perceuse",
+    "description": "Perceuse sans fil disponible pour prêt.",
+    "localisation": {
+      "lat": 45.75,
+      "lng": 4.85
+    },
+    "utilisateur": "Jean Dupont",
+    "categorie": "Bricolage",
+    "date": "2025-05-14"
+  },
+  {
+    "id": 2,
+    "type": "compétence",
+    "titre": "Cours de guitare",
+    "description": "Cours de guitare débutant, 1h par semaine.",
+    "localisation": {
+      "lat": 45.76,
+      "lng": 4.83
+    },
+    "utilisateur": "Alice Martin",
+    "categorie": "Musique",
+    "date": "2025-05-12"
+  },
+  {
+    "titre": "aaaaaa",
+    "type": "materiel",
+    "categorie": "Informatique",
+    "description": "aaaaaa",
+    "localisation": {
+      "lat": 0,
+      "lng": 0
+    },
+    "utilisateur": "moi",
+    "date": "2025-05-20T09:03:28.618Z",
+    "id": 1747731808642
+  },
+  {
+    "titre": "s<kfqcjy",
+    "type": "competence",
+    "categorie": "Programmation",
+    "description": "s<kfqcjy",
+    "localisation": {
+      "lat": 43.9956955,
+      "lng": 1.0630462
+    },
+    "utilisateur": "moi",
+    "date": "2025-05-20T09:43:51.137Z",
+    "id": 1747734231164
+  }
+]
